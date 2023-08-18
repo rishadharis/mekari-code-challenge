@@ -102,7 +102,7 @@ set USER=root
 set PASS=
 set DB=mekari
 
-python %DIR%/main.py %HOST% %USER% %PASS% %DB%
+python %DIR%/main.py --host %HOST% --username %USER% --password %PASS% --database %DB%
 ```
 
 As you can see above that host, user, pass, and db is passed as argument because im using this code to pass it so the mysql credential is not hardcoded. Even though this is also not the best practice because people can see to batch file. Instead in the future we need to encrypt the password, or even store it to environment.
