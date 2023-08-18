@@ -1,4 +1,5 @@
 import pandas as pd
+import mysql.connector
 
 emp_df = pd.read_csv("employees.csv")
 
@@ -36,3 +37,27 @@ final_agg_data["salary_per_hour"] = final_agg_data["salary_total"]/final_agg_dat
 
 print(final_agg_data)
 
+host = 'your_host'
+user = 'your_user'
+password = 'your_password'
+database = 'your_database'
+
+# Establish the connection
+conn = mysql.connector.connect(
+    host=host,
+    user=user,
+    password=password,
+    database=database
+)
+
+table_name = 'salary_per_hours'
+columns = ', '.join(final_agg_data.columns)
+
+sql = f"INSERT INTO {table_name} (year, month, branch_id, total_salary, total_hours, salary_per_hour) VALUES (%s, %s, %s, %s, %s, %s)"
+
+values = [tuple(row) for row in final_agg_data.values]
+
+cursor = conn.cursor()
+cursor.executemany(sql, values)
+conn.commit()
+cursor.close()
