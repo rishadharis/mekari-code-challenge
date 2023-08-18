@@ -1,3 +1,7 @@
+
+# Mekari Code Challenge
+## Salary Per Hour
+
 ### Pre-Requisite
 Since the destination table will be used by BI tools, then we need to make sure that the the table exist. If it didn't, that we can make the table using query below, assuming that we use mekari database.
 
@@ -36,3 +40,12 @@ CREATE TABLE mekari.salary_per_hours (
 	salary_per_hour INT NULL
 )
 ```
+
+
+## Tasks
+### Task 1 : SQL
+
+Lets assume that the destination table which is employees and timesheets already created and the data from csv already loaded.
+
+To make it run by a scheduler in a daily basis, then i will make the script as a procedure.
+
