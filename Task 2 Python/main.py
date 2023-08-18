@@ -1,6 +1,6 @@
 import pandas as pd
 import mysql.connector
-
+import argparse
 
 def insert_to_table(host, user, password, database, df):
     # Establish the connection
@@ -40,7 +40,7 @@ def get_max_date_from_destination(host, user, password, database):
     cursor.close()
     return max_date
 
-def main():
+def main(host, username, password, database):
     # Read File
     emp_df = pd.read_csv("employees.csv")
     ts_df = pd.read_csv("timesheets.csv")
@@ -51,7 +51,7 @@ def main():
     ts_df['date'] = pd.to_datetime(ts_df['date'])
 
     # GET ONLY NEW DATA
-    max_date = get_max_date_from_destination("localhost","root","","mekari")
+    max_date = get_max_date_from_destination(host, username, password, database)
     ts_df = ts_df[ts_df['date'] > max_date]
 
     # Get hours difference
@@ -88,7 +88,7 @@ def main():
 
     # print(final_agg_data)
 
-    insert_to_table("localhost","root","","mekari",final_agg_data)
+    insert_to_table(host, username, password, database, final_agg_data)
 
     # To make sure this is working, we need to also insert new timesheet data (ts_df) to timesheets table
     # insert_to_timesheet_table() 
@@ -96,4 +96,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Python script with command-line arguments')
+    
+    parser.add_argument('--host', required=False, default='localhost', help='Database host')
+    parser.add_argument('--username', required=False, default='root', help='Database username')
+    parser.add_argument('--password', required=False, default='', help='Database password')
+    parser.add_argument('--database', required=False, default='mekari', help='Database name')
+    args = parser.parse_args()
+
+    main(args.host, args.username, args.password, args.database)
