@@ -119,3 +119,15 @@ if __name__ == "__main__":
 
     main(args.host, args.username, args.password, args.database)
 ```
+
+For empty or null value in checkin and checkout column, i set it to '09:00:00' for checkin if empty and '17:00:00' for checkout if empty
+```python
+ts_df['checkin'] = pd.to_datetime(ts_df['checkin'].fillna('09:00:00'))
+ts_df['checkout'] = pd.to_datetime(ts_df['checkout'].fillna('17:00:00'))
+```
+
+Also in sql task
+```sql
+CASE WHEN checkin IS NULL THEN TIME('09:00:00') ELSE checkin END,
+CASE WHEN checkout IS NULL THEN TIME('17:00:00') ELSE checkout END)/60) AS total_hours
+```
