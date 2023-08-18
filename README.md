@@ -97,5 +97,25 @@ You can run the program directly from **Repository/Task 2 Python/main.py**
 But if we want to run it through scheduler, then we can use batch for this like below
 ```batch
 set DIR=D:/program/run
-python %DIR%/main.py
+set HOST=localhost
+set USER=root
+set PASS=
+set DB=mekari
+
+python %DIR%/main.py %HOST% %USER% %PASS% %DB%
+```
+
+As you can see above that host, user, pass, and db is passed as argument because im using this code to pass it so the mysql credential is not hardcoded. Even though this is also not the best practice because people can see to batch file. Instead in the future we need to encrypt the password, or even store it to environment.
+
+```python
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Python script with command-line arguments')
+    
+    parser.add_argument('--host', required=False, default='localhost', help='Database host')
+    parser.add_argument('--username', required=False, default='root', help='Database username')
+    parser.add_argument('--password', required=False, default='', help='Database password')
+    parser.add_argument('--database', required=False, default='mekari', help='Database name')
+    args = parser.parse_args()
+
+    main(args.host, args.username, args.password, args.database)
 ```
