@@ -92,3 +92,10 @@ mysql -u %DB_USER% -p%DB_PASSWORD% -D %DB_NAME% -e "CALL CalculateSalaryPerHours
 You can also see the batch file in **Repository/Task 1 SQL/run.bat**
 
 ### Task 2 : Python
+You can run the program directly from **Repository/Task 2 Python/main.py**
+
+But if we want to run it through scheduler, then we can use batch for this like below
+```batch
+set DIR=D:/program/run
+python %DIR%/main.py
+```
